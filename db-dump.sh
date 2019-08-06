@@ -21,11 +21,9 @@ if [ "$1" = 'config' ]; then
 
 	if [ "$overwrite" = "y" ]; then
 		echo "Generating config file..."
-		read -p "Enter Database Name: " userdb_name
 		read -p "Enter Google Drive Folder ID: " usergdrive_folder_id
 
 		cp "$dir/db-dump.conf.dist" "$dir/db-dump.conf"
-		sed -i "s/db_name=\"\"/db_name=\"$userdb_name\"/" "$dir/db-dump.conf"
 		sed -i "s/gdrive_folder_id=\"\"/gdrive_folder_id=\"$usergdrive_folder_id\"/" "$dir/db-dump.conf"
 
 		echo "Config file generated."
@@ -56,12 +54,6 @@ if [ "$1" != "" ] && [ -f "$1" ]; then
     echo "Using '$1' as config file"
 fi
 
-# Make sure $db_name and $gdrive_folder_id aren't empty
-if [ -z "$db_name" ]; then
-	echo >&2 "db_name variable not set. Aborting."
-	exit 1
-fi
-
 if [ -z "$gdrive_folder_id" ]; then
 	echo >&2 "gdrive_folder_id variable not set. Aborting."
 	exit 1
@@ -87,9 +79,9 @@ find "$dump_dir" -type f -name "*.sql" | while read -r file; do
 done
 
 # Dump the live database to a file
-dump_file="$db_name-$(date +$date_format).sql"
+dump_file="$(date +$date_format).sql"
 path="$dump_dir/$dump_file"
-mysqldump $mysql_opts "$db_name" > "$path"
+mysqldump $mysql_opts  > "$path"
 
 # Upload the newly created file to Google Drive
 gdrive upload --no-progress --parent "$gdrive_folder_id" "$path"
