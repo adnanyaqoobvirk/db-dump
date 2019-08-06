@@ -1,6 +1,6 @@
 # Google Drive MySQL Dumper
 
-Small script which exports a MySQL database to a file and uploads it to Google Drive.
+Small script which exports MySQL databases to a file and uploads it to Google Drive.
 
 By default, the script works on a 14 day retention policy. That is, local and remote backups are kept
 for up to 14 days, any local backup files the script finds in the backup directory will be gzipped before
@@ -24,7 +24,6 @@ Requires the [gdrive](https://github.com/prasmussen/gdrive) command line utility
 	```sh
 	$ db-dump config
 	Generating config file...
-	Enter Database Name: mydatabase    
 	Enter Google Drive Folder ID: abc123def456
 	Config file generated.
 	```
@@ -33,7 +32,7 @@ Requires the [gdrive](https://github.com/prasmussen/gdrive) command line utility
 
 	```sh
 	$ db-dump
-	Uploading /var/spool/db-dump/mydatabase-2016-11-09_17:09:51.sql
+	Uploading /var/spool/db-dump/2016-11-09_17:09:51.sql
 	Uploaded 0BwvPrE-VPdlkb7BhLGVJZUxST1z at 356.8 KB/s, total 683.5 KB
 	Done
 	```
@@ -44,7 +43,6 @@ The following options must be set and do **not** have default values:
 
 | Option | Description |
 | ------ | ----------- |
-| db_name | Name of the database to export |
 | gdrive_folder_id | Google Drive folder ID where files get uploaded |
 
 The following options **do** have default values and can be tweaked as desired:
